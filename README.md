@@ -1,4 +1,6 @@
-# paper
+# [SBT-Net: A Tri-Cue Guided Multimodal Fusion Framework for Depression Recognition](http://)
+
+[**Yujie Huo, Weng Howe Chan, Ahmad Najmi Bin Amerhaider Nuar and Hongyu Gao**](http://)
 
 This project implements a multimodal depression prediction model using:
 - Text (ALBERT)
@@ -6,7 +8,15 @@ This project implements a multimodal depression prediction model using:
 - Semantic-Guided Gating (SGCMG)
 - Bias-Guided Tensor Product Attention (BG-TPA)
 - Emotion Trend Module (ETM)
+## Clone demo code
+```text
+cd /workspace
+git clone https://github.com/ghy-yhg/SBT-Net
+```
+## Dataset Setup
 
+The DAIC-WOZ dataset needs to be used by logging into the official  [website](https://dcapswoz.ict.usc.edu/) and filling out an application form.
+Unzip the files and place them as follows:
 
 
 ## 📦 Dataset Format
@@ -24,7 +34,10 @@ data/
 │   ├── transcripts/
 │   └── labels.csv
 ```
-
+## Config Introduction
+```text
+pip install -r requirements.txt
+```
 ### labels.csv format:
 
 ```
