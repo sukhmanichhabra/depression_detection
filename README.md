@@ -59,6 +59,9 @@ python test.py
 
 
 ```
+## Issue
+If there is an issue, please send an email to this address，huoyujie@graduate.utm.my
+
 ##  Citation
 If this repository is helpful for your research, we'd really appreciate it if you could cite the following paper:
 
