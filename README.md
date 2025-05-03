@@ -2,6 +2,7 @@
 
 [**Yujie Huo, Weng Howe Chan, Ahmad Najmi Bin Amerhaider Nuar and Hongyu Gao**](http://)
 
+
 This project implements a multimodal depression prediction model using:
 - Text (ALBERT)
 - Audio (Wav2Vec2)
