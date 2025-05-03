@@ -56,4 +56,19 @@ python train.py
 
 ```bash
 python test.py
-```# SBT-Net
+
+
+```
+##  Citation
+If this repository is helpful for your research, we'd really appreciate it if you could cite the following paper:
+
+```
+
+@article{journal,
+  author    = {Yujie Huo and Weng Howe Chan and Ahmad Najmi Bin Amerhaider Nuar and Hongyu Gao},
+  title     = {SBT-Net: A Tri-Cue Guided Multimodal Fusion Framework for Depression Recognition},
+  journal   = {},
+  year      = {2025},
+  doi       = {We will update the above DOI after the paper is officially published}
+}
+```
