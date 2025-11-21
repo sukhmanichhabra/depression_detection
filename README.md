@@ -68,11 +68,12 @@ If this repository is helpful for your research, we'd really appreciate it if yo
 
 ```
 
-@article{journal,
+@article{Huo2025SBTNet,
   author    = {Yujie Huo and Weng Howe Chan and Ahmad Najmi Bin Amerhaider Nuar and Hongyu Gao},
   title     = {SBT-Net: A Tri-Cue Guided Multimodal Fusion Framework for Depression Recognition},
-  journal   = {},
+  journal   = {BioData Mining},
   year      = {2025},
-  doi       = {We will update the above DOI after the paper is officially published}
+  publisher = {Springer},
+  note      = {Accepted for publication}
 }
 ```
