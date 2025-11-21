@@ -3,6 +3,8 @@
 [**Yujie Huo, Weng Howe Chan, Ahmad Najmi Bin Amerhaider Nuar and Hongyu Gao**](http://)
 
 
+## 📰 News
+* **[2025-11]**: 🎉 Our paper "SBT-Net: A Tri-Cue Guided Multimodal Fusion Framework for Depression Recognition" has been accepted by **BioData Mining**!
 This project implements a multimodal depression prediction model using:
 - Text (ALBERT)
 - Audio (Wav2Vec2)
