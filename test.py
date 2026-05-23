@@ -34,7 +34,7 @@ def evaluate(model, loader, device):
 
 def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    test_data = DepressionDataset(DATA_DIR / 'labels.csv', DATA_DIR)
+    test_data = DepressionDataset(DATA_DIR / 'labels_full.csv', DATA_DIR)
     test_loader = DataLoader(test_data, batch_size=2, shuffle=False, collate_fn=pad_collate)
     model = DepressionPredictor().to(device)
     model.load_state_dict(torch.load(MODEL_PATH, map_location=device))

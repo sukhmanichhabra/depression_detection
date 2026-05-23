@@ -20,7 +20,7 @@ Combine textual and audio cues to predict depression using:
 
 ## Data layout
 
-Place datasets under `data/<dataset_name>/` with `audio/`, `transcripts/`, and `labels.csv` (see README).
+Place datasets under `data/<dataset_name>/` with `audio/`, `transcripts/`, and `labels_full.csv` (see README).
 
 ## Logical dataflow
 

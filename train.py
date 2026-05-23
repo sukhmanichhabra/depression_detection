@@ -2,13 +2,12 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 import torch
-import random
-import numpy as np
 from pathlib import Path
 from torch.nn.utils.rnn import pad_sequence
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import DataLoader, Subset
 from torch.nn import BCEWithLogitsLoss
 from sklearn.metrics import accuracy_score, roc_auc_score
+from sklearn.model_selection import StratifiedShuffleSplit
 from dataset_loader import DepressionDataset
 from model import DepressionPredictor
 from tqdm import tqdm
@@ -18,6 +17,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / 'data' / 'daic_woz'
 MODEL_DIR = BASE_DIR / 'saved_models'
+LABEL_FILE = DATA_DIR / 'labels_full.csv'
 
 
 def pad_collate(batch):
@@ -78,13 +78,14 @@ def train_one_epoch(model, loader, optimizer, criterion, device):
 # 主流程
 def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    dataset = DepressionDataset(DATA_DIR / 'labels.csv', DATA_DIR)
+    dataset = DepressionDataset(LABEL_FILE, DATA_DIR)
 
-    # 拆分训练集和验证集（使用固定随机种子）
-    val_size = int(0.2 * len(dataset))
-    train_size = len(dataset) - val_size
-    generator = torch.Generator().manual_seed(42)
-    train_set, val_set = random_split(dataset, [train_size, val_size], generator=generator)
+    # Stratified train/val split to keep the label balance stable.
+    labels = dataset.df['label'].astype(int).to_numpy()
+    splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+    train_idx, val_idx = next(splitter.split(dataset.df, labels))
+    train_set = Subset(dataset, train_idx)
+    val_set = Subset(dataset, val_idx)
 
     train_loader = DataLoader(train_set, batch_size=2, shuffle=True, collate_fn=pad_collate)
     val_loader = DataLoader(val_set, batch_size=2, shuffle=False, collate_fn=pad_collate)
