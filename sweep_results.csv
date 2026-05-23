@@ -1,0 +1,9 @@
+lr,batch_size,audio_frames,epochs,val_f1,val_acc
+2e-05,2,64,10,0.5000,  Accuracy  : 0.4667
+2e-05,2,128,10,0.5000,  Accuracy  : 0.3667
+2e-05,4,64,10,0.5000,  Accuracy  : 0.4500
+2e-05,4,128,10,0.5000,  Accuracy  : 0.4000
+1e-05,2,64,10,0.5000,  Accuracy  : 0.3667
+1e-05,2,128,10,0.5000,  Accuracy  : 0.3333
+1e-05,4,64,10,0.5000,  Accuracy  : 0.4000
+1e-05,4,128,10,0.5000,  Accuracy  : 0.3500
