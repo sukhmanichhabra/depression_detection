@@ -1,0 +1,6 @@
+.DS_Store
+**/.DS_Store
+**/__pycache__/
+SBT-Net/depression_model/data/
+SBT-Net/depression_model/saved_models/
+SBT-Net/depression_model/sweep_results.csv

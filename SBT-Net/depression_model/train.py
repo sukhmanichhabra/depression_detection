@@ -4,6 +4,8 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 import torch
 import random
 import numpy as np
+from pathlib import Path
+from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader, random_split
 from torch.nn import BCEWithLogitsLoss
 from sklearn.metrics import accuracy_score, roc_auc_score
@@ -11,6 +13,17 @@ from dataset_loader import DepressionDataset
 from model import DepressionPredictor
 from tqdm import tqdm
 import os
+
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / 'data' / 'daic_woz'
+MODEL_DIR = BASE_DIR / 'saved_models'
+
+
+def pad_collate(batch):
+    ids, masks, wavs, labels = zip(*batch)
+    wavs = pad_sequence(wavs, batch_first=True)
+    return torch.stack(ids), torch.stack(masks), wavs, torch.stack(labels)
 
 
 
@@ -59,13 +72,13 @@ def train_one_epoch(model, loader, optimizer, criterion, device):
         print("⚠️ Skipping AUC: only one class present in train set")
     else:
         auc = roc_auc_score(all_labels, all_preds)
-    return total_loss / len(loader1), acc, auc
+    return total_loss / len(loader), acc, auc
 
 
 # 主流程
 def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    dataset = DepressionDataset('/root/autodl-tmp/data/daic_woz/labels.csv', '/root/autodl-tmp/data/daic_woz')
+    dataset = DepressionDataset(DATA_DIR / 'labels.csv', DATA_DIR)
 
     # 拆分训练集和验证集（使用固定随机种子）
     val_size = int(0.2 * len(dataset))
@@ -73,8 +86,8 @@ def main():
     generator = torch.Generator().manual_seed(42)
     train_set, val_set = random_split(dataset, [train_size, val_size], generator=generator)
 
-    train_loader = DataLoader(train_set, batch_size=2, shuffle=True)
-    val_loader = DataLoader(val_set, batch_size=2, shuffle=False)
+    train_loader = DataLoader(train_set, batch_size=2, shuffle=True, collate_fn=pad_collate)
+    val_loader = DataLoader(val_set, batch_size=2, shuffle=False, collate_fn=pad_collate)
 
     model = DepressionPredictor().to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
@@ -84,9 +97,9 @@ def main():
     best_auc = 0
     patience = 3
     counter = 0
-    num_epochs = 20
+    num_epochs = int(os.getenv('NUM_EPOCHS', '20'))
 
-    os.makedirs('depression_model/saved_models', exist_ok=True)
+    os.makedirs(MODEL_DIR, exist_ok=True)
 
     for epoch in range(num_epochs):
         print(f"\n===== Epoch {epoch+1}/{num_epochs} =====")
@@ -99,7 +112,7 @@ def main():
         if val_auc > best_auc:
             best_auc = val_auc
             counter = 0
-            torch.save(model.state_dict(), 'depression_model/saved_models/best_model.pt')
+            torch.save(model.state_dict(), MODEL_DIR / 'best_model.pt')
             print("✅ Model saved (Val AUC improved)")
         else:
             counter += 1
